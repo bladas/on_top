@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'dashboard.apps.DashboardConfig'
+    'djoser',
+    'dashboard.apps.DashboardConfig',
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'on_top.urls'
+AUTH_USER_MODEL = "accounts.CustomUser"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 TEMPLATES = [
     {

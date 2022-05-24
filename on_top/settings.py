@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-#$wy$v%paqk-0wxv9^y*wpu!ur7lpkaois2-p14w+ao_l^h4_w
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://on-top-goal.herokuapp.com'
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,10 +85,18 @@ WSGI_APPLICATION = 'on_top.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db1.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "d1c35pe584dulq",
+        'USER': 'fnuvrxkxunnymu',
+        'PASSWORD': '011dfc50d533703823499d139ab03f0ba92fda6c92adf0301308b9696880c28b',
+        'HOST': 'ec2-52-48-159-67.eu-west-1.compute.amazonaws.com',
+        'PORT': 5432,
+
     }
+
 }
 
 # Password validation

@@ -27,7 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    'https://on-top-goal.herokuapp.com'
+    'https://on-top-goal.herokuapp.com',
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0:8000",
 ]
 # Application definition
 

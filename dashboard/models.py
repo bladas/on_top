@@ -31,3 +31,10 @@ class GoalMentor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class GoalReminding(models.Model):
+    text = models.CharField(max_length=255)
+    periodicity = models.CharField(max_length=255)
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

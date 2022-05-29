@@ -21,7 +21,7 @@ class GoalViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         query_params = self.request.query_params
         user = self.request.user
-        if query_params.get('search'):
+        if query_params.get('search') or self.request.method == "GET":
             return self.queryset.filter(Q(is_private=False) | Q(user=user))
         return self.queryset.filter(user=user)
 

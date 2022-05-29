@@ -9,7 +9,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        exclude = ['user']
+        exclude = ['user', 'goal']
 
     def create(self, validated_data):
         """Creating goal"""
@@ -23,11 +23,13 @@ class DiaryCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DiaryComment
-        exclude = ['user']
+        exclude = ['user', 'goal']
 
     def create(self, validated_data):
         """Creating comment"""
         user = self.context["request"].user
+        kwargs = self.context['request'].parser_context['kwargs']
+        validated_data["goal"] = Goal.objects.get(pk=kwargs['goals_pk'])
         validated_data["user"] = user
         return super().create(validated_data)
 
@@ -42,5 +44,7 @@ class MentorCommentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Creating comment"""
         user = self.context["request"].user
+        kwargs = self.context['request'].parser_context['kwargs']
+        validated_data["goal"] = Goal.objects.get(pk=kwargs['goals_pk'])
         validated_data["user"] = user
         return super().create(validated_data)

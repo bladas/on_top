@@ -3,8 +3,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from dashboard.models import Goal, DiaryComment, MentorComment
-from dashboard.serializers import GoalSerializer, DiaryCommentSerializer, MentorCommentSerializer, MentorSerializer
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor
+from dashboard.serializers import GoalSerializer, DiaryCommentSerializer, MentorCommentSerializer, MentorSerializer, \
+    MentorModelSerializer
 
 
 class GoalViewSet(viewsets.ModelViewSet):
@@ -44,6 +45,12 @@ class MentorView(GenericAPIView):
     def post(request, **kwargs):
         serializer = MentorSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.assign_mentor(request.data['email'], kwargs['goals_id'])
+            serializer.assign_mentor(request.data['email'], kwargs['goals_pk'])
             return Response(status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @staticmethod
+    def get(request, **kwargs):
+        mentors = GoalMentor.objects.filter(goal__pk=kwargs['goals_pk'])
+        serializer = MentorModelSerializer(mentors, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

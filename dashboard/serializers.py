@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from djoser.serializers import UserSerializer
 from rest_framework import serializers
 
 from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor
@@ -72,3 +73,12 @@ class MentorSerializer(serializers.Serializer):
             user=user,
             goal=goal
         )
+
+
+class MentorModelSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = GoalMentor
+        exclude = ['goal']
+

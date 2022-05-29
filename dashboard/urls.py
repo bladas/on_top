@@ -9,6 +9,6 @@ router.register(r'goals/(?P<goals_pk>\d+)/author-comments', DiaryCommentViewSet)
 router.register(r'goals/(?P<goals_pk>\d+)/mentor-comments', MentorCommentViewSet)
 
 urlpatterns = [
+    path('goals/<int:goals_pk>/mentor/', MentorView.as_view()),
     path('', include(router.urls)),
-    path('goals/<int:goals_pk>/assign_mentor', MentorView.as_view()),
 ]

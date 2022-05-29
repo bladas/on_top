@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -12,8 +13,14 @@ class GoalViewSet(viewsets.ModelViewSet):
     queryset = Goal.objects.all()
     serializer_class = GoalSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
+    filterset_fields = ['title']
 
     def get_queryset(self):
+        query_params = self.request.query_params
+        if query_params.get('search'):
+            return self.queryset.filter(is_private=False)
         user = self.request.user
         return self.queryset.filter(user=user)
 

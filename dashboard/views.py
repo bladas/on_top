@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import GenericAPIView
@@ -19,9 +20,9 @@ class GoalViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_params = self.request.query_params
-        if query_params.get('search'):
-            return self.queryset.filter(is_private=False)
         user = self.request.user
+        if query_params.get('search'):
+            return self.queryset.filter(Q(is_private=False) | Q(user=user))
         return self.queryset.filter(user=user)
 
 

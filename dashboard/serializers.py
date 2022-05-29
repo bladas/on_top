@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from dashboard.models import Goal, DiaryComment, MentorComment
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor
 from on_top.settings import DATETIME_FORMAT
+
+User = get_user_model()
 
 
 class GoalSerializer(serializers.ModelSerializer):
@@ -9,7 +12,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        exclude = ['user', 'goal']
+        exclude = ['user']
 
     def create(self, validated_data):
         """Creating goal"""
@@ -39,7 +42,7 @@ class MentorCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MentorComment
-        exclude = ['user']
+        exclude = ['user', 'goal']
 
     def create(self, validated_data):
         """Creating comment"""
@@ -48,3 +51,24 @@ class MentorCommentSerializer(serializers.ModelSerializer):
         validated_data["goal"] = Goal.objects.get(pk=kwargs['goals_pk'])
         validated_data["user"] = user
         return super().create(validated_data)
+
+
+class MentorSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    @staticmethod
+    def validate_email(value):
+        """Validating email"""
+        users = User.objects.filter(email=value)
+        if not users.first():
+            raise serializers.ValidationError("Invalid user email")
+        return value
+
+    @staticmethod
+    def assign_mentor(email, goal_id):
+        user = User.objects.get(email=email)
+        goal = Goal.objects.get(id=goal_id)
+        GoalMentor.objects.create(
+            user=user,
+            goal=goal
+        )

@@ -20,9 +20,9 @@ class DiaryCommentViewSet(viewsets.ModelViewSet):
     serializer_class = DiaryCommentSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        user = self.request.user
-        return self.queryset.filter(user=user)
+    def get_queryset(self, **kwargs):
+        goal_pk = self.kwargs['goals_pk']
+        return self.queryset.filter(goal__pk=goal_pk)
 
 
 class MentorCommentViewSet(viewsets.ModelViewSet):
@@ -30,7 +30,6 @@ class MentorCommentViewSet(viewsets.ModelViewSet):
     serializer_class = MentorCommentSerializer
     permission_classes = [IsAuthenticated]
 
-
-    def get_queryset(self):
-        user = self.request.user
-        return self.queryset.filter(user=user)
+    def get_queryset(self, **kwargs):
+        goal_pk = self.kwargs['goals_pk']
+        return self.queryset.filter(goal__pk=goal_pk)

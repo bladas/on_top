@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+DATETIME_FORMAT = '%Y-%m-%d %H:%m'
 ROOT_URLCONF = 'on_top.urls'
 AUTH_USER_MODEL = "accounts.CustomUser"
 CORS_ORIGIN_ALLOW_ALL = True
@@ -97,10 +98,10 @@ DATABASES = {
     'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "d1c35pe584dulq",
-        'USER': 'fnuvrxkxunnymu',
-        'PASSWORD': '011dfc50d533703823499d139ab03f0ba92fda6c92adf0301308b9696880c28b',
-        'HOST': 'ec2-52-48-159-67.eu-west-1.compute.amazonaws.com',
+        'NAME': "d26dmbfdfij5lu",
+        'USER': 'xzaftjimhilqks',
+        'PASSWORD': '28ab40dbcc9820d4590b37423b2ce5784aa3118161dd8f2ef4958bc137bfcea6',
+        'HOST': 'ec2-34-242-84-130.eu-west-1.compute.amazonaws.com',
         'PORT': 5432,
 
     }
@@ -134,9 +135,9 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -148,5 +149,6 @@ STATIC_ROOT = '/static'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 django_heroku.settings(locals())

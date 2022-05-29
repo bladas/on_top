@@ -6,8 +6,8 @@ from dashboard.views import GoalViewSet, DiaryCommentViewSet, MentorCommentViewS
 
 router = routers.DefaultRouter()
 router.register(r'goals', GoalViewSet)
-router.register(r'author-comments', DiaryCommentViewSet)
-router.register(r'mentor-comments', MentorCommentViewSet)
+router.register(r'goals/(?P<goals_pk>\d+)/author-comments', DiaryCommentViewSet)
+router.register(r'goals/(?P<goals_pk>\d+)/mentor-comments', MentorCommentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

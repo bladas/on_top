@@ -5,9 +5,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding
 from dashboard.serializers import GoalSerializer, DiaryCommentSerializer, MentorCommentSerializer, MentorSerializer, \
-    MentorModelSerializer
+    MentorModelSerializer, RemindingSerializer
 
 
 class GoalViewSet(viewsets.ModelViewSet):
@@ -39,6 +39,16 @@ class DiaryCommentViewSet(viewsets.ModelViewSet):
 class MentorCommentViewSet(viewsets.ModelViewSet):
     queryset = MentorComment.objects.all()
     serializer_class = MentorCommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self, **kwargs):
+        goal_pk = self.kwargs['goals_pk']
+        return self.queryset.filter(goal__pk=goal_pk)
+
+
+class RemindingViewSet(viewsets.ModelViewSet):
+    queryset = GoalReminding.objects.all()
+    serializer_class = RemindingSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self, **kwargs):

@@ -38,3 +38,5 @@ class GoalReminding(models.Model):
     periodicity = models.CharField(max_length=255)
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)

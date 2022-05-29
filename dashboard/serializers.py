@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from djoser.serializers import UserSerializer
 from rest_framework import serializers
 
-from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding
 from on_top.settings import DATETIME_FORMAT
 
 User = get_user_model()
@@ -43,6 +43,21 @@ class MentorCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MentorComment
+        exclude = ['user', 'goal']
+
+    def create(self, validated_data):
+        """Creating comment"""
+        user = self.context["request"].user
+        kwargs = self.context['request'].parser_context['kwargs']
+        validated_data["goal"] = Goal.objects.get(pk=kwargs['goals_pk'])
+        validated_data["user"] = user
+        return super().create(validated_data)
+
+class RemindingSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format=DATETIME_FORMAT, input_formats=None, read_only=True)
+
+    class Meta:
+        model = GoalReminding
         exclude = ['user', 'goal']
 
     def create(self, validated_data):

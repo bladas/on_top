@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
+import sys
 from pathlib import Path
 import django_heroku
 
@@ -94,21 +95,30 @@ WSGI_APPLICATION = 'on_top.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+TESTING = sys.argv[1:2] == ['test']
+if not TESTING:
+    DATABASES = {
+        'default': {
 
-DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "d26dmbfdfij5lu",
-        'USER': 'xzaftjimhilqks',
-        'PASSWORD': '28ab40dbcc9820d4590b37423b2ce5784aa3118161dd8f2ef4958bc137bfcea6',
-        'HOST': 'ec2-34-242-84-130.eu-west-1.compute.amazonaws.com',
-        'PORT': 5432,
-
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': "d26dmbfdfij5lu",
+            'USER': 'xzaftjimhilqks',
+            'PASSWORD': '28ab40dbcc9820d4590b37423b2ce5784aa3118161dd8f2ef4958bc137bfcea6',
+            'HOST': 'ec2-34-242-84-130.eu-west-1.compute.amazonaws.com',
+            'PORT': 5432,
+            'TEST': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            },
+        }
     }
-
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

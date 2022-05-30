@@ -1,3 +1,5 @@
+import enum
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -5,8 +7,16 @@ from django.db import models
 User = get_user_model()
 
 
+class StatusEnum(enum.Enum):
+    IN_PROGRESS = 'В процесі'
+    DONE = 'Виконано'
+    DECLINED = 'Відхилено'
+
+
 class Goal(models.Model):
     title = models.CharField(max_length=255)
+    status = models.CharField(max_length=50, choices=[(tag.value, tag.value) for tag in StatusEnum],
+                              default=StatusEnum.IN_PROGRESS.value)
     description = models.TextField()
     is_private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

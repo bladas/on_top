@@ -10,10 +10,11 @@ User = get_user_model()
 
 class GoalSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format=DATETIME_FORMAT, input_formats=None, read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Goal
-        exclude = ['user']
+        fields = "__all__"
 
     def create(self, validated_data):
         """Creating goal"""

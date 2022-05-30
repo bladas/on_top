@@ -53,6 +53,7 @@ class MentorCommentSerializer(serializers.ModelSerializer):
         validated_data["user"] = user
         return super().create(validated_data)
 
+
 class RemindingSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format=DATETIME_FORMAT, input_formats=None, read_only=True)
 

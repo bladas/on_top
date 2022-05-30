@@ -72,3 +72,11 @@ class MentorView(GenericAPIView):
         mentors = GoalMentor.objects.filter(goal__pk=kwargs['goals_pk'])
         serializer = MentorModelSerializer(mentors, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @staticmethod
+    def delete(request, **kwargs):
+        serializer = MentorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.delete_mentor(request.data['email'], kwargs['goals_pk'])
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

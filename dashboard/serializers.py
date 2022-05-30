@@ -90,6 +90,12 @@ class MentorSerializer(serializers.Serializer):
             goal=goal
         )
 
+    @staticmethod
+    def delete_mentor(email, goal_id):
+        user = User.objects.get(email=email)
+        goal = Goal.objects.get(id=goal_id)
+        GoalMentor.objects.filter(user=user, goal=goal).delete()
+
 
 class MentorModelSerializer(serializers.ModelSerializer):
     user = UserSerializer()

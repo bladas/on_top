@@ -81,7 +81,7 @@ def send_list_of_goals_message(user, context):
     ]
 
     send_chunked_message(
-        user_id=goals.chat_id,
+        user_id=user.chat_id,
         bot=bot,
         context=context,
         buttons=variant_buttons,

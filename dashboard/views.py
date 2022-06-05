@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding, SubGoal, SubGoalCompletion
 from dashboard.serializers import GoalSerializer, DiaryCommentSerializer, MentorCommentSerializer, MentorSerializer, \
     MentorModelSerializer, RemindingSerializer, SubGoalSerializer
+from dashboard.services import CalendarService
 
 
 class GoalViewSet(viewsets.ModelViewSet):
@@ -99,7 +100,7 @@ class SubGoalCompletionView(GenericAPIView):
     @staticmethod
     def post(request, **kwargs):
         SubGoalCompletion.objects.create(
-            sub_goal=SubGoal.object.get(pk=kwargs['sub_goals_pk'])
+            sub_goal=SubGoal.objects.get(pk=kwargs['sub_goals_pk'])
         )
         return Response(status=status.HTTP_200_OK)
 
@@ -107,8 +108,9 @@ class SubGoalCompletionView(GenericAPIView):
 class CalendarView(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    # @staticmethod
-    # def get(request, **kwargs):
-    #
-    #
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    @staticmethod
+    def get(request, **kwargs):
+        service = CalendarService()
+        data = service.get_calendar()
+        return Response(data, status=status.HTTP_200_OK)
+

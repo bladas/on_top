@@ -111,6 +111,6 @@ class CalendarView(GenericAPIView):
     @staticmethod
     def get(request, **kwargs):
         service = CalendarService()
-        data = service.get_calendar()
+        data = service.get_calendar(goal=Goal.objects.get(pk=kwargs['goals_pk']))
         return Response(data, status=status.HTTP_200_OK)
 

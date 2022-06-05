@@ -49,7 +49,7 @@ def contact_handler(update: Update, context) -> None:
         "first_name": contact.first_name,
         "chat_id": contact.user_id
     }
-    user = User.create_user(**user_data)
+    user = User.objects.create_user(**user_data)
     state = State()
     state.set_state(user, state=HOME_STATE)
     send_otp_message(chat_id, context, otp)

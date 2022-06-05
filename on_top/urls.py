@@ -22,4 +22,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('auth/', include('djoser.urls')),
     path('authtoken/', include('djoser.urls.authtoken')),
+    path("telegram-bot/", include("telegram_bot.urls")),
+
 ]

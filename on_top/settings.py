@@ -56,7 +56,7 @@ INSTALLED_APPS = [
 
 TELEGRAM_BOT = {
     "TOKEN": "5182743072:AAGxsQ1qXdEtjN20g7fn-B0Bb-gQI6DYzM4",
-    "WEBHOOK_URL": "https://9a03-194-44-96-253.ngrok.io/telegram-bot/",
+    "WEBHOOK_URL": "https://on-top-goal.herokuapp.com/telegram-bot/",
 }
 
 

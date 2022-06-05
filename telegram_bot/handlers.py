@@ -76,10 +76,6 @@ def home_handler(update: Update, context) -> None:
 def goal_handler(update: Update, context) -> None:
     remove_last_message(context)
     user_id = update.callback_query.message.chat.id
-    keyboard_deleter = update.message.reply_text(
-        "Секундочку...", reply_markup=ReplyKeyboardRemove()
-    )
-    keyboard_deleter.delete()
     query = update.callback_query
     goal_pk = query["data"]
     send_goal_approve_message(user_id, goal_pk, context)
@@ -92,10 +88,6 @@ def goal_handler(update: Update, context) -> None:
 def approve_handler(update: Update, context) -> None:
     remove_last_message(context)
     user_id = update.callback_query.message.chat.id
-    keyboard_deleter = update.message.reply_text(
-        "Секундочку...", reply_markup=ReplyKeyboardRemove()
-    )
-    keyboard_deleter.delete()
     query = update.callback_query
     data = query["data"].split(',')
     if data[0] == "1":

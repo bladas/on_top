@@ -5,7 +5,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding, SubGoal
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding, SubGoal, SubGoalCompletion
 from dashboard.serializers import GoalSerializer, DiaryCommentSerializer, MentorCommentSerializer, MentorSerializer, \
     MentorModelSerializer, RemindingSerializer, SubGoalSerializer
 
@@ -91,3 +91,24 @@ class MentorView(GenericAPIView):
             serializer.delete_mentor(request.data['email'], kwargs['goals_pk'])
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubGoalCompletionView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def post(request, **kwargs):
+        SubGoalCompletion.objects.create(
+            sub_goal=SubGoal.object.get(pk=kwargs['sub_goals_pk'])
+        )
+        return Response(status=status.HTTP_200_OK)
+
+
+class CalendarView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def get(request, **kwargs):
+        mentors = GoalMentor.objects.filter(goal__pk=kwargs['goals_pk'])
+        serializer = MentorModelSerializer(mentors, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

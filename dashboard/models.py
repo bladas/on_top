@@ -1,4 +1,5 @@
 import enum
+import datetime
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -32,6 +33,11 @@ class SubGoal(models.Model):
     description = models.TextField()
 
 
+class SubGoalCompletion(models.Model):
+    sub_goal = models.ForeignKey(SubGoal, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class DiaryComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
@@ -59,3 +65,4 @@ class GoalReminding(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    time = models.TimeField(default=datetime.time(16, 00))

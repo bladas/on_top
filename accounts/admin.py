@@ -42,7 +42,7 @@ class CustomUserAdmin(UserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
-                    "company_name",
+
                 )
             },
         ),
@@ -76,14 +76,12 @@ class CustomUserAdmin(UserAdmin):
                     "first_name",
                     "last_name",
                     "phone_number",
-                    "company_name",
                 ),
             },
         ),
     )
     search_fields = (
         "phone_number",
-        "company_name",
         "first_name",
         "last_name",
     )

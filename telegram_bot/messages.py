@@ -63,7 +63,7 @@ def get_list_of_goals_message(user_id, context):
     message = bot.send_message(
         user_id,
         reply_markup=keyboard,
-        text="Отримати список цілей",
+        text="Меню",
     )
     context.user_data["last_messages_ids"].append(message.message_id)
     context.chat_data["id"] = message.chat_id

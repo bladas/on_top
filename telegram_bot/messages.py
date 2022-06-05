@@ -8,7 +8,7 @@ from telegram import (
 )
 from telegram.ext import CallbackContext
 
-from dashboard.models import Goal
+from dashboard.models import Goal, SubGoalCompletion, SubGoal
 from telegram_bot.bot import bot
 from telegram_bot.config import send_chunked_message
 from telegram_bot.models import ButtonText, MessageText
@@ -78,6 +78,7 @@ def send_list_of_goals_message(user, context):
             callback_data=str(goal.pk),
         )
         for goal in goals
+        if SubGoal.objects.filter(goal=goal).first()
     ]
 
     send_chunked_message(
@@ -85,5 +86,32 @@ def send_list_of_goals_message(user, context):
         bot=bot,
         context=context,
         buttons=variant_buttons,
+        text="Виберіть ціль",
         chunk=1,
+    )
+
+
+def send_goal_approve_message(chat_id, goal_pk, context):
+    goal = Goal.objects.get(pk=goal_pk)
+    variant_buttons = [
+        InlineKeyboardButton(
+            "Виконано",
+            callback_data=f"1, {goal_pk}",
+        ),
+        InlineKeyboardButton(
+            "Не виконано",
+            callback_data=f"0, {goal_pk}",
+        ),
+
+    ]
+    sub_goals = SubGoal.objects.filter(goal=goal)
+    titles = [sub_goal.title for sub_goal in sub_goals]
+    text = "\n".join(titles)
+    send_chunked_message(
+        user_id=chat_id,
+        bot=bot,
+        context=context,
+        buttons=variant_buttons,
+        text=f"План на сьогодні виконаний?\n {text}",
+        chunk=2,
     )

@@ -2,11 +2,11 @@ from .bot import bot
 # from .config import HOME_BUTTON, BACK_BUTTON
 from .config import BACK_BUTTON
 from .state import (
-    CONTACT_STATE, HOME_STATE
+    CONTACT_STATE, HOME_STATE, GET_GOAL_STATE, APPROVE_STATE
 )
 from .handlers import (
     start_handler,
-    contact_handler, home_handler,
+    contact_handler, home_handler, goal_handler,
 )
 
 from telegram.ext import (
@@ -52,6 +52,16 @@ dispatcher.add_handler(
             HOME_STATE: [
                 start_command_handler,
                 MessageHandler(filters=Filters.regex(r"Отримати список цілей"), callback=home_handler),
+
+            ],
+            GET_GOAL_STATE: [
+                start_command_handler,
+                CallbackQueryHandler(callback=goal_handler)
+
+            ],
+            APPROVE_STATE: [
+                start_command_handler,
+                CallbackQueryHandler(callback=approve_handler)
 
             ],
 

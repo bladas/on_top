@@ -5,7 +5,7 @@ from telegram import Update, ReplyKeyboardRemove
 from .config import remove_last_message
 from .state import (
     CONTACT_STATE,
-    HOME_STATE
+    HOME_STATE, GET_GOAL_STATE, APPROVE_STATE
 )
 from .messages import *
 from .models import MessageText, State
@@ -68,3 +68,43 @@ def home_handler(update: Update, context) -> None:
     chat_id = update.message.from_user.id
     user = User.objects.get(chat_id=chat_id)
     send_list_of_goals_message(user, context)
+    state = State()
+    state.set_state(user, state=GET_GOAL_STATE)
+    return GET_GOAL_STATE
+
+
+def goal_handler(update: Update, context) -> None:
+    remove_last_message(context)
+    user_id = update.callback_query.message.chat.id
+    keyboard_deleter = update.message.reply_text(
+        "Секундочку...", reply_markup=ReplyKeyboardRemove()
+    )
+    keyboard_deleter.delete()
+    query = update.callback_query
+    goal_pk = query["data"]
+    send_goal_approve_message(user_id, goal_pk, context)
+    user = User.objects.get(chat_id=user_id)
+    state = State()
+    state.set_state(user, state=APPROVE_STATE)
+    return APPROVE_STATE
+
+
+def approve_handler(update: Update, context) -> None:
+    remove_last_message(context)
+    user_id = update.callback_query.message.chat.id
+    keyboard_deleter = update.message.reply_text(
+        "Секундочку...", reply_markup=ReplyKeyboardRemove()
+    )
+    keyboard_deleter.delete()
+    query = update.callback_query
+    data = query["data"].split(',')
+    if data[0] == "1":
+        for sub_goal in SubGoal.objects.filter(goal__pk=data[1]):
+            SubGoalCompletion.objects.create(
+                sub_goal=SubGoal.objects.get(pk=sub_goal.pk)
+            )
+    user = User.objects.get(chat_id=user_id)
+    state = State()
+    state.set_state(user, state=APPROVE_STATE)
+    get_list_of_goals_message(user_id, context)
+    return HOME_STATE

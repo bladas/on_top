@@ -1,5 +1,7 @@
 (
     CONTACT_STATE,
     HOME_STATE,
-    GET_LIST_OF_GOALS_STATE
-) = range(3)
+    GET_LIST_OF_GOALS_STATE,
+    GET_GOAL_STATE,
+    APPROVE_STATE
+) = range(5)

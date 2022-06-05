@@ -34,7 +34,7 @@ class SubGoalViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         goal_pk = self.kwargs['goals_pk']
         user = self.request.user
-        return self.queryset.filter(goal__pk=goal_pk, user=user)
+        return self.queryset.filter(goal__pk=goal_pk, goal__user=user)
 
 
 class DiaryCommentViewSet(viewsets.ModelViewSet):

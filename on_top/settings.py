@@ -129,12 +129,8 @@ else:
         }
 
 
-CELERY_BROKER_URL = 'redis://:paf3e6bb9afa14d313cd8240b2380144427611a776e4890ae50ae90d12a74778e@ec2-54-78-103-217.eu-west-1.compute.amazonaws.com:27540'
-# CELERY_RESULT_BACKEND = 'redis://:paf3e6bb9afa14d313cd8240b2380144427611a776e4890ae50ae90d12a74778e@ec2-54-78-103-217' \
-#                         '.eu-west-1.compute.amazonaws.com:27540'
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_URL = 'redis://defalt:7OyO7DFfapsVBZeRlxXVMgOWnvaLF575@redis-10189.c226.eu-west-1-3.ec2.cloud.redislabs.com:10189'
+CELERY_RESULT_BACKEND = 'redis://defalt:7OyO7DFfapsVBZeRlxXVMgOWnvaLF575@redis-10189.c226.eu-west-1-3.ec2.cloud.redislabs.com:10189'
 
 CACHES = {
     'default': {

@@ -9,6 +9,7 @@ from .state import (
 )
 from .messages import *
 from .models import MessageText, State
+
 User = get_user_model()
 
 
@@ -55,3 +56,15 @@ def contact_handler(update: Update, context) -> None:
     send_otp_message(chat_id, context, otp)
     get_list_of_goals_message(chat_id, context)
     return HOME_STATE
+
+
+def home_handler(update: Update, context) -> None:
+    remove_last_message(context)
+
+    keyboard_deleter = update.message.reply_text(
+        "Секундочку...", reply_markup=ReplyKeyboardRemove()
+    )
+    keyboard_deleter.delete()
+    chat_id = update.message.from_user.id
+    user = User.objects.get(chat_id=chat_id)
+    send_list_of_goals_message(user, context)

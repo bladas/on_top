@@ -2,11 +2,11 @@ from .bot import bot
 # from .config import HOME_BUTTON, BACK_BUTTON
 from .config import BACK_BUTTON
 from .state import (
-    CONTACT_STATE
+    CONTACT_STATE, HOME_STATE
 )
 from .handlers import (
     start_handler,
-    contact_handler,
+    contact_handler, home_handler,
 )
 
 from telegram.ext import (
@@ -49,6 +49,12 @@ dispatcher.add_handler(
                 MessageHandler(filters=Filters.contact, callback=contact_handler),
 
             ],
+            HOME_STATE: [
+                start_command_handler,
+                MessageHandler(filters=Filters.regex(r"Отримати список цілей"), callback=home_handler),
+
+            ],
+
         },
         fallbacks=[CommandHandler("start", start_handler)],
 

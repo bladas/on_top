@@ -8,6 +8,7 @@ from telegram import (
 )
 from telegram.ext import CallbackContext
 
+from dashboard.models import Goal
 from telegram_bot.bot import bot
 from telegram_bot.config import send_chunked_message
 from telegram_bot.models import ButtonText, MessageText
@@ -67,3 +68,22 @@ def get_list_of_goals_message(user_id, context):
     )
     context.user_data["last_messages_ids"].append(message.message_id)
     context.chat_data["id"] = message.chat_id
+
+
+def send_list_of_goals_message(user, context):
+    goals = Goal.objects.filter(user=user)
+    variant_buttons = [
+        InlineKeyboardButton(
+            goal.title,
+            callback_data=str(goal.pk),
+        )
+        for goal in goals
+    ]
+
+    send_chunked_message(
+        user_id=goals.chat_id,
+        bot=bot,
+        context=context,
+        buttons=variant_buttons,
+        chunk=1,
+    )

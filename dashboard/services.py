@@ -17,12 +17,12 @@ class CalendarService:
             if i < number_of_day_in_week:
                 temp_list.append({"value": "null", "date": "null"})
                 continue
+            day = i - number_of_day_in_week + 1
             if i > last_day + 1:
                 temp_list.append({"value": "null", "date": "null"})
+            elif i > now.day + 1:
+                temp_list.append({"value": "check", "date": day})
             else:
-                print("i", i)
-                day = i - number_of_day_in_week + 1
-                print("day", day)
                 if SubGoalCompletion.objects.filter(
                         sub_goal__goal=goal, created_at=date(now.year, now.month, day)).first():
                     temp_list.append({"value": "true", "date": day})

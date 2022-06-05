@@ -44,7 +44,7 @@ def contact_handler(update: Update, context) -> None:
     otp = random.randint(100000, 999999)
     user_data = {
         "phone_number": contact.phone_number,
-        "password": otp,
+        "password": str(otp),
         "last_name": contact.last_name or None,
         "first_name": contact.first_name,
         "chat_id": contact.user_id

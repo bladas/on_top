@@ -27,7 +27,7 @@ class SubGoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubGoal
-        fields = ['goal']
+        exclude = ['goal']
 
     def create(self, validated_data):
         """Creating sub goal"""

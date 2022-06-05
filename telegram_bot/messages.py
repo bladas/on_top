@@ -1,3 +1,4 @@
+from datetime import datetime
 from operator import itemgetter
 
 from telegram import (
@@ -78,7 +79,8 @@ def send_list_of_goals_message(user, context):
             callback_data=str(goal.pk),
         )
         for goal in goals
-        if SubGoal.objects.filter(goal=goal).first()
+        if (SubGoal.objects.filter(goal=goal).first()
+            and not SubGoalCompletion.objects.filter(sb_goal__goal=goal, created_at=datetime.now().date).first())
     ]
 
     send_chunked_message(

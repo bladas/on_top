@@ -49,8 +49,16 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     'dashboard.apps.DashboardConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'telegram_bot.apps.TelegramBotConfig',
 ]
+
+
+TELEGRAM_BOT = {
+    "TOKEN": "5182743072:AAGxsQ1qXdEtjN20g7fn-B0Bb-gQI6DYzM4",
+    "WEBHOOK_URL": "https://9a03-194-44-96-253.ngrok.io/telegram-bot/",
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

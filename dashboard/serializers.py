@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from djoser.serializers import UserSerializer
 from rest_framework import serializers
 
-from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding, SubGoal
 from on_top.settings import DATETIME_FORMAT
 
 User = get_user_model()
@@ -20,6 +20,19 @@ class GoalSerializer(serializers.ModelSerializer):
         """Creating goal"""
         user = self.context["request"].user
         validated_data["user"] = user
+        return super().create(validated_data)
+
+
+class SubGoalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubGoal
+        fields = ['goal']
+
+    def create(self, validated_data):
+        """Creating sub goal"""
+        kwargs = self.context['request'].parser_context['kwargs']
+        validated_data["goal"] = Goal.objects.get(pk=kwargs['goals_pk'])
         return super().create(validated_data)
 
 
@@ -104,4 +117,3 @@ class MentorModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoalMentor
         exclude = ['goal']
-

@@ -23,6 +23,15 @@ class Goal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
 
+class SubGoal(models.Model):
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=255)
+    status = models.CharField(max_length=50, choices=[(tag.value, tag.value) for tag in StatusEnum],
+                              default=StatusEnum.IN_PROGRESS.value)
+    description = models.TextField()
+
+
 class DiaryComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     goal = models.ForeignKey(Goal, on_delete=models.CASCADE)

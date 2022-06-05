@@ -7,20 +7,20 @@ class CustomUserManager(BaseUserManager):
     for authentication instead of usernames.
     """
 
-    def create_user(self, email, password, **extra_fields):
+    def create_user(self, phone_number, password, **extra_fields):
         """
         Create and save a User with the given phone_number and password.
         """
-        if not email:
-            raise ValueError("The email must be set")
+        if not phone_number:
+            raise ValueError("The phone_number must be set")
 
-        user = self.model(email=email, **extra_fields)
+        user = self.model(phone_number=phone_number, **extra_fields)
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, phone_number, password, **extra_fields):
         """
         Create and save a SuperUser with the given phone_number and password.
         """
@@ -32,4 +32,4 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(phone_number, password, **extra_fields)

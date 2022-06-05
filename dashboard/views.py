@@ -5,9 +5,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding
+from dashboard.models import Goal, DiaryComment, MentorComment, GoalMentor, GoalReminding, SubGoal
 from dashboard.serializers import GoalSerializer, DiaryCommentSerializer, MentorCommentSerializer, MentorSerializer, \
-    MentorModelSerializer, RemindingSerializer
+    MentorModelSerializer, RemindingSerializer, SubGoalSerializer
 
 
 class GoalViewSet(viewsets.ModelViewSet):
@@ -24,6 +24,17 @@ class GoalViewSet(viewsets.ModelViewSet):
         if query_params.get('search') or self.request.method == "GET":
             return self.queryset.filter(Q(is_private=False) | Q(user=user))
         return self.queryset.filter(user=user)
+
+
+class SubGoalViewSet(viewsets.ModelViewSet):
+    queryset = SubGoal.objects.all()
+    serializer_class = SubGoalSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        goal_pk = self.kwargs['goals_pk']
+        user = self.request.user
+        return self.queryset.filter(goal__pk=goal_pk, user=user)
 
 
 class DiaryCommentViewSet(viewsets.ModelViewSet):

@@ -6,7 +6,7 @@ from .state import (
 )
 from .handlers import (
     start_handler,
-    contact_handler, home_handler, goal_handler,
+    contact_handler, home_handler, goal_handler, approve_handler,
 )
 
 from telegram.ext import (

@@ -36,7 +36,7 @@ class SubGoal(models.Model):
 
 class SubGoalCompletion(models.Model):
     sub_goal = models.ForeignKey(SubGoal, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
 
 class DiaryComment(models.Model):

@@ -107,8 +107,8 @@ class SubGoalCompletionView(GenericAPIView):
 class CalendarView(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    @staticmethod
-    def get(request, **kwargs):
-        mentors = GoalMentor.objects.filter(goal__pk=kwargs['goals_pk'])
-        serializer = MentorModelSerializer(mentors, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    # @staticmethod
+    # def get(request, **kwargs):
+    #
+    #
+    #     return Response(serializer.data, status=status.HTTP_200_OK)

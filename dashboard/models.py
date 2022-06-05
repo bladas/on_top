@@ -22,6 +22,7 @@ class Goal(models.Model):
     is_private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
 
 class SubGoal(models.Model):

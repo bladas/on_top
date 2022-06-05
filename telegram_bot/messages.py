@@ -10,7 +10,7 @@ from telegram.ext import CallbackContext
 
 from telegram_bot.bot import bot
 from telegram_bot.config import send_chunked_message
-from telegram_bot.models import ButtonText, MessageText, TelegramUser
+from telegram_bot.models import ButtonText, MessageText
 
 
 def send_text_message(context: CallbackContext, user_id: int, text):

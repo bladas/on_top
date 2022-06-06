@@ -82,13 +82,16 @@ def send_list_of_goals_message(user, context):
         if (SubGoal.objects.filter(goal=goal).first()
             and not SubGoalCompletion.objects.filter(sb_goal__goal=goal, created_at=datetime.now().date).first())
     ]
-
+    if variant_buttons:
+        text = "Виберіть ціль"
+    else:
+        text = "Всі цілі на сьогодні виконані!"
     send_chunked_message(
         user_id=user.chat_id,
         bot=bot,
         context=context,
         buttons=variant_buttons,
-        text="Виберіть ціль",
+        text=text,
         chunk=1,
     )
 
@@ -117,3 +120,21 @@ def send_goal_approve_message(chat_id, goal_pk, context):
         text=f"План на сьогодні виконаний?\n {text}",
         chunk=2,
     )
+
+
+def comment_message(user_id, context, text):
+    list_of_goals = KeyboardButton(
+        "Отримати список цілей"
+    )
+    keyboard = ReplyKeyboardMarkup([[list_of_goals]])
+
+    if "last_messages_ids" not in context.user_data:
+        context.user_data["last_messages_ids"] = []
+
+    message = bot.send_message(
+        user_id,
+        reply_markup=keyboard,
+        text=text,
+    )
+    context.user_data["last_messages_ids"].append(message.message_id)
+    context.chat_data["id"] = message.chat_id

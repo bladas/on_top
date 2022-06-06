@@ -2,10 +2,12 @@ import random
 
 from django.contrib.auth import get_user_model
 from telegram import Update, ReplyKeyboardRemove
-from .config import remove_last_message
+
+from dashboard.models import DiaryComment
+from .config import remove_last_message, data_dict
 from .state import (
     CONTACT_STATE,
-    HOME_STATE, GET_GOAL_STATE, APPROVE_STATE
+    HOME_STATE, GET_GOAL_STATE, APPROVE_STATE, COMENT_STATE
 )
 from .messages import *
 from .models import MessageText, State
@@ -60,11 +62,6 @@ def contact_handler(update: Update, context) -> None:
 
 def home_handler(update: Update, context) -> None:
     remove_last_message(context)
-
-    keyboard_deleter = update.message.reply_text(
-        "Секундочку...", reply_markup=ReplyKeyboardRemove()
-    )
-    keyboard_deleter.delete()
     chat_id = update.message.from_user.id
     user = User.objects.get(chat_id=chat_id)
     send_list_of_goals_message(user, context)
@@ -95,8 +92,23 @@ def approve_handler(update: Update, context) -> None:
             SubGoalCompletion.objects.create(
                 sub_goal=SubGoal.objects.get(pk=sub_goal.pk)
             )
+        data_dict['goal_pk'] = data[1]
     user = User.objects.get(chat_id=user_id)
+    comment_message(context=context, user_id=user_id, text="Надішліть коментар до виконаого завдання,"
+                                                             " або поверніться до списку цілей")
+
     state = State()
-    state.set_state(user, state=APPROVE_STATE)
-    get_list_of_goals_message(user_id, context)
-    return HOME_STATE
+    state.set_state(user, state=COMENT_STATE)
+    return COMENT_STATE
+
+
+def comment_handler(update: Update, context) -> None:
+    chat_id = update.message.from_user.id
+    user = User.objects.get(chat_id=chat_id)
+    DiaryComment.objects.create(
+        user=user,
+        goal=Goal.objects.get(pk=data_dict['goal_pk']),
+        text=update.message.text
+    )
+
+

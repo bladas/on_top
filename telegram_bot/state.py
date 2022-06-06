@@ -3,5 +3,6 @@
     HOME_STATE,
     GET_LIST_OF_GOALS_STATE,
     GET_GOAL_STATE,
-    APPROVE_STATE
-) = range(5)
+    APPROVE_STATE,
+    COMENT_STATE
+) = range(6)

@@ -156,6 +156,9 @@ def send_file_message(
 #     r = requests.get(file_path)
 #     return r.content.decode("utf-8")
 
+data_dict = {
+    "goal_pk": None
+}
 
 def send_message(user_id, bot, text):
     bot.send_message(user_id,

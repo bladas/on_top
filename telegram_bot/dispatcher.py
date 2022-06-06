@@ -62,6 +62,7 @@ dispatcher.add_handler(
             ],
             APPROVE_STATE: [
                 start_command_handler,
+                MessageHandler(filters=Filters.regex(r"Отримати список цілей"), callback=home_handler),
                 CallbackQueryHandler(callback=approve_handler)
 
             ],

@@ -80,7 +80,7 @@ def send_list_of_goals_message(user, context):
         )
         for goal in goals
         if (SubGoal.objects.filter(goal=goal).first()
-            and not SubGoalCompletion.objects.filter(sb_goal__goal=goal, created_at=datetime.now().date()).first())
+            and not SubGoalCompletion.objects.filter(sub_goal__goal=goal, created_at=datetime.now().date()).first())
     ]
     if variant_buttons:
         text = "Виберіть ціль"

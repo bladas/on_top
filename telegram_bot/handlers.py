@@ -94,7 +94,7 @@ def approve_handler(update: Update, context) -> None:
             )
         data_dict['goal_pk'] = data[1]
     user = User.objects.get(chat_id=user_id)
-    comment_message(context=context, user_id=user_id, text="Надішліть коментар до виконаого завдання,"
+    comment_message(context=context, user_id=user_id, text="Надішліть коментар до виконаного завдання,"
                                                              " або поверніться до списку цілей")
 
     state = State()

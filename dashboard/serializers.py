@@ -22,6 +22,9 @@ class GoalSerializer(serializers.ModelSerializer):
         validated_data["user"] = user
         return super().create(validated_data)
 
+    def get_created_at(self, obj):
+        return obj.end_date
+
 
 class SubGoalSerializer(serializers.ModelSerializer):
 

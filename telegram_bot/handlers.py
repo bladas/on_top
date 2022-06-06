@@ -110,5 +110,5 @@ def comment_handler(update: Update, context) -> None:
         goal=Goal.objects.get(pk=data_dict['goal_pk']),
         text=update.message.text
     )
-
+    return HOME_STATE
 
